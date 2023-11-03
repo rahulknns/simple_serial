@@ -54,6 +54,15 @@ int SimpleSerial::setBufferSize(int size) {
 }
 
 /**
+ * @brief Check if data is available for reading
+ * @return int - number of bytes available for reading
+*/
+int SimpleSerial::availableForRead() {
+    int bytes_available;
+    ioctl(fd, FIONREAD, &bytes_available);
+    return bytes_available;
+}
+/**
  * @brief Write data to serial port
  * @param data - data to be written
  * @return int - number of bytes written
@@ -77,6 +86,16 @@ std::string SimpleSerial::readFromSerial( int size) {
     return data;
 }
 
+/**
+ * @brief Read all data from serial port
+ * @return std::string - data read
+*/
+std::string SimpleSerial::readAll() {
+    std::string data;
+    int n = availableForRead();
+    data = readFromSerial(n);
+    return data;
+}   
 /**
  * @brief Close serial port
  * @return int - 0 if successful else -1

@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <termios.h>
+#include <sys/ioctl.h>      /* ioctl */
 #include <cstring>
 #include <fcntl.h>
 #include <iostream>
@@ -17,8 +18,10 @@ public:
     SimpleSerial(std::string port, int baudrate,int timeout);
     ~SimpleSerial();
     int setBufferSize(int size);
+    int availableForRead();
     int writeToSerial(std::string data);
     std::string readFromSerial(int size);
+    std::string readAll();
     int closePort();
 
 };
