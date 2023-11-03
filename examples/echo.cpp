@@ -10,7 +10,7 @@ int main() {
         std::cout<<"No of Bytes:"<<no_of_bytes<<std::endl;
         if (no_of_bytes > 0) {
             std::string data = serial.readFromSerial(no_of_bytes);
-            std::cout<<data<<std::endl;
+            serial.writeToSerial(data);
         }
         //Wait for 1 second
         usleep(1000000);
