@@ -3,7 +3,7 @@
 # Usage Instructions:
 * The project is designed to be as  simple as  possible consisting only of two files and therefore doesn't need any complex build system. Clone the repository and add the header and source files to your project and compile.
 * See the examples folder for sample usage.
-* See the docs folder for detailed API documentation.
+* See the docs folder for detailed API documentation. The documentation is hosted online [here](https://rahulknns.github.io/simple_serial/).
 # Compilation Instructions:
 * Make sure you have the following packages installed in your linux machine.
   1) glibc
