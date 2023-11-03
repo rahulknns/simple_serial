@@ -9,8 +9,8 @@ int main() {
         int no_of_bytes = serial.availableForRead();
         std::cout<<"No of Bytes:"<<no_of_bytes<<std::endl;
         if (no_of_bytes > 0) {
-            std::string data = serial.readFromSerial(no_of_bytes);
-            std::cout<<data;
+            std::string data = serial.readUntil("Back");
+            std::cout<<data<<std::endl;
         }
         std::cout<<data;
         //Wait for 1 second

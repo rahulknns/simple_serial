@@ -5,8 +5,9 @@
  * @param baudrate - baudrate (e.g. 9600)
  * @param timeout - timeout in seconds (e.g. 1)
 */
-SimpleSerial::SimpleSerial(std::string port, int baudrate,int timeout) {
+SimpleSerial::SimpleSerial(std::string port, int baudrate,double timeout) {
     fd = open(port.c_str(), O_RDWR);
+    this->timeout = timeout;
     if (fd == -1) {
         throw std::runtime_error("open_port: Unable to open " + port + " - " + std::string(std::strerror(errno)) + "\n");
     }
@@ -95,7 +96,35 @@ std::string SimpleSerial::readAll() {
     int n = availableForRead();
     data = readFromSerial(n);
     return data;
-}   
+}
+/**
+ * @brief Read until a character is found
+ * @param  sequence- the sequence till which to be read
+ * */   
+std::string SimpleSerial::readUntil(std::string sequence){
+    std::string line;
+    int sequence_length = sequence.length();
+    auto start = std::chrono::steady_clock::now();
+    auto now = std::chrono::steady_clock::now();
+    while(std::chrono::duration_cast<std::chrono::seconds>(now - start).count() < timeout){
+        line += readFromSerial(sequence_length);
+        int sequence_index = line.find(sequence);
+        if(sequence_index != std::string::npos){
+            return line.substr(0, sequence_index + sequence_length);
+        }
+        now = std::chrono::steady_clock::now();
+    }
+    line = "";
+    return line;
+}
+
+/**
+ * @brief Read a line from serial port
+ * @return std::string - line read
+*/
+std::string SimpleSerial::readline() {
+    return readUntil("\n");
+}
 /**
  * @brief Close serial port
  * @return int - 0 if successful else -1
